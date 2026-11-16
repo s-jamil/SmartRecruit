@@ -1,0 +1,43 @@
+{% extends "main/base.html" %}
+
+{% block content %}
+<div class="container mt-5">
+    <h1 class="text-center mb-4">Applications for "{{ job_post.job_title }}"</h1>
+
+    <div class="text-center mb-4">
+        <a href="{% url 'generate_analysis_report' post_id=job_post.id %}" class="btn btn-primary">
+            Generate Applications' Analysis Report
+        </a>
+    </div>
+
+    {% if applications %}
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Applicant Name</th>
+                    <th>Job Title</th>
+                    <th>CV</th>
+                    <th>Applied On</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for application in applications %}
+                    <tr>
+                        <td>{{ application.applicant.username }}</td>
+                        <td>{{ application.job_post.job_title }}</td>
+                        <td>
+                            <a href="{{ application.cv.url }}" target="_blank">View CV</a>  <!-- Link to view the CV -->
+                        </td>
+                        <td>{{ application.created_at|date:"F j, Y" }}</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    {% else %}
+        <p>No applications found for this job post.</p>
+    {% endif %}
+</div>
+{% endblock %}
+
+
+

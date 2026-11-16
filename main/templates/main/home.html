@@ -1,0 +1,71 @@
+{% extends "main/base.html" %}
+
+{% block content %}
+    <div class="text-center mt-5">
+        <h1>Welcome to Smart Recruit!</h1>
+    </div>
+
+    <h2 class="mt-4">Job Posts</h2>
+
+    <!-- Show the Create Job Post button only if the user has permission -->
+    {% if can_add_job_post %}
+        <div class="text-center mb-3">
+            <a href="{% url 'create_job_post' %}" class="btn btn-success">Create Job Post</a>
+        </div>
+    {% endif %}
+
+    {% if posts %}
+        <div class="mt-2">
+            {% for post in posts %}
+                <div class="card mb-3">
+                    <div class="card-header">
+                        <strong>{{ post.author.username }}</strong>
+                    </div>
+                    <div class="card-body">
+                        <h5 class="card-title">{{ post.job_title }}</h5>
+                        <p class="card-text">{{ post.job_description }}</p>
+                        <p class="card-text"><small class="text-muted">{{ post.job_qualification }}</small></p>
+                        
+                        <!-- Show the Apply button only if the user is in the Applicant group -->
+                        {% if is_applicant %}
+                            <a href="{% url 'apply_job' post.id %}" class="btn btn-primary">Apply for this job</a>
+                        {% endif %}
+
+                        <!-- Show the Edit button only if the user has permission to change the post -->
+                        {% if can_change_job_post %}
+                            <a href="{% url 'edit_job_post' post.id %}" class="btn btn-warning">Edit</a>
+                        {% endif %}
+
+                        <!-- Show the Delete button if the user is in the HR group -->
+                        {% if can_delete_other_posts %}
+                            <form method="POST" action="{% url 'delete_job_post' post.id %}" class="d-inline">
+                                {% csrf_token %}
+                                <button type="submit" class="btn btn-danger">Delete</button>
+                            </form>
+                        {% endif %}
+
+                        <!-- Show the View Applicants button if the user is in the HR group -->
+                        {% if is_hr_user %}
+                            <a href="{% url 'view_applicants' post.id %}" class="btn btn-info">View Applicants</a>
+                        {% endif %}
+                    </div>
+                    <div class="card-footer text-muted">{{ post.created_at|date:"F j, Y" }}</div>
+                </div>
+            {% endfor %}
+        </div>
+    {% else %}
+        <p>No job posts available at the moment.</p>
+    {% endif %}
+{% endblock %}
+
+
+
+
+
+
+
+
+
+
+
+

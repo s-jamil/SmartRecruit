@@ -1,0 +1,21 @@
+# Python and environments
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+env/
+# Local credentials and data
+.env
+.env.*
+!.env.example
+website/local_settings.py
+*.sqlite3
+*.sqlite3-journal
+media/
+# Editor and OS files
+.idea/
+.vscode/
+.DS_Store
+# Generated assets
+staticfiles/
+*.log

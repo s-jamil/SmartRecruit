@@ -1,0 +1,25 @@
+{% extends "main/base.html" %}
+
+{% block content %}
+    <div class="text-center mt-5">
+        <h1>Hello {{ request.user.last_name }}!</h1>  <!-- Updated greeting with user's last name -->
+        <h2>Apply for {{ job_post.job_title }}</h2>
+    </div>
+
+    <div class="mt-4">
+        <h3>Job Description</h3>
+        <p>{{ job_post.job_description }}</p>  <!-- Displaying the job description -->
+       
+
+        <form method="POST" enctype="multipart/form-data">  <!-- Added enctype for file upload -->
+            {% csrf_token %}
+            <div class="mb-3">
+                <label for="cv" class="form-label">Upload your CV (PDF format only):</label>
+                <input type="file" class="form-control" id="cv" name="cv" required>
+            </div>
+            <button type="submit" class="btn btn-success">Submit Application</button>
+        </form>
+    </div>
+{% endblock %}
+
+

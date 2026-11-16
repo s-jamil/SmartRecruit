@@ -1,0 +1,21 @@
+{% extends "main/base.html" %}
+{% load crispy_forms_tags %}
+
+{% block content %}
+<!-- Redirect if the user is already logged in -->
+<script>
+    if ({{ user.is_authenticated|yesno:"true,false" }}) {
+        window.location.href = "{% url 'home' %}";  // Change 'home' to the name of your home URL pattern
+    }
+</script>
+
+<form method="post">
+    {% csrf_token %}
+    {{ form|crispy }}
+    <p>Don't have an account? Create one <a href="/sign-up">here</a>.</p>
+    <button type="submit" class="btn btn-success">Login</button>
+</form>
+{% endblock content %}
+
+
+
